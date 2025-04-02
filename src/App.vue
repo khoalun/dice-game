@@ -10,7 +10,7 @@ const currentScore = ref<number>(0)
 const activePlayer = ref<number>(0)
 const isOpenPopup = ref(false)
 const dices = ref([3, 4])
-const isPlaying = ref(false)
+const isPlaying = ref(true)
 const handleNewGame = () => {
   console.log('fdfdfd')
   isOpenPopup.value = !isOpenPopup.value
@@ -30,6 +30,17 @@ const handleConfirm = () => {
   scorePlayer.value = [0, 0]
   dices.value = [1, 1]
 }
+
+const handleRollDice = () => {
+  if (isPlaying.value) {
+    const dice1 = Math.floor(Math.random() * 6) + 1
+    const dice2 = Math.floor(Math.random() * 6) + 1
+    console.log(dice1, dice2)
+    dices.value = [dice1, dice2]
+  } else {
+    alert('Please click new game to start')
+  }
+}
 </script>
 
 <template>
@@ -40,7 +51,11 @@ const handleConfirm = () => {
   <main>
     <div class="wrapper clearfix">
       <PlayerGame v-bind:scorePlayer="scorePlayer" />
-      <ControlGame v-bind:currentScore="currentScore" v-on:handleNewGame="handleNewGame" />
+      <ControlGame
+        v-bind:currentScore="currentScore"
+        v-on:handleNewGame="handleNewGame"
+        v-on:handleRollDice="handleRollDice"
+      />
       <DiceGame v-bind:activePlayer="activePlayer" v-bind:dices="dices" />
       <PopUpModal
         v-bind:isOpenPopup="isOpenPopup"
