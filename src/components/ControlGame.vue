@@ -1,7 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const newGame = () => {
+  console.log('newGame Controls.vue')
+  emit('handleNewGame')
+}
+
+const emit = defineEmits(['handleNewGame'])
+</script>
 <template>
   <div>
-    <button class="control btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
+    <button class="control btn-new" v-on:click="newGame">
+      <i class="ion-ios-plus-outline"></i>New game
+    </button>
     <button class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
     <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
 

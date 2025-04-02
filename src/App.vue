@@ -2,11 +2,16 @@
 import PlayerGame from './components/PlayerGame.vue'
 import ControlGame from './components/ControlGame.vue'
 import DiceGame from './components/DiceGame.vue'
+import PopUpModal from './components/PopUpModal.vue'
 import { ref } from 'vue'
 
 const scorePlayer = ref<number[]>([13, 30])
 const currentScore = ref<number>(0)
 const activePlayer = ref<number>(0)
+
+const handleNewGame = () => {
+  console.log('fdfdfd')
+}
 </script>
 
 <template>
@@ -17,8 +22,9 @@ const activePlayer = ref<number>(0)
   <main>
     <div class="wrapper clearfix">
       <PlayerGame v-bind:scorePlayer="scorePlayer" />
-      <ControlGame v-bind:currentScore="currentScore" />
+      <ControlGame v-bind:currentScore="currentScore" v-on:handleNewGame="handleNewGame" />
       <DiceGame v-bind:activePlayer="activePlayer" />
+      <PopUpModal />
     </div>
   </main>
 </template>

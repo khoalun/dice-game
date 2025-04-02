@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+const newGame = () => {
+  console.log('newGame')
+}
 </script>
 
 <template>
@@ -28,7 +29,9 @@ import TheWelcome from './components/TheWelcome.vue'
         </div>
       </div>
 
-      <button class="control btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
+      <button class="control btn-new" v-on:click="newGame">
+        <i class="ion-ios-plus-outline"></i>New game
+      </button>
       <button class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
       <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
 
