@@ -8,9 +8,27 @@ import { ref } from 'vue'
 const scorePlayer = ref<number[]>([13, 30])
 const currentScore = ref<number>(0)
 const activePlayer = ref<number>(0)
-
+const isOpenPopup = ref(false)
+const dices = ref([3, 4])
+const isPlaying = ref(false)
 const handleNewGame = () => {
   console.log('fdfdfd')
+  isOpenPopup.value = !isOpenPopup.value
+  console.log('isOpenPopup:', isOpenPopup.value)
+}
+
+const handleCloseModal = () => {
+  isOpenPopup.value = false
+}
+
+const handleConfirm = () => {
+  console.log('ban ra confirm vue')
+  isPlaying.value = true
+  isOpenPopup.value = false
+  activePlayer.value = 0
+  currentScore.value = 0
+  scorePlayer.value = [0, 0]
+  dices.value = [1, 1]
 }
 </script>
 
@@ -23,8 +41,12 @@ const handleNewGame = () => {
     <div class="wrapper clearfix">
       <PlayerGame v-bind:scorePlayer="scorePlayer" />
       <ControlGame v-bind:currentScore="currentScore" v-on:handleNewGame="handleNewGame" />
-      <DiceGame v-bind:activePlayer="activePlayer" />
-      <PopUpModal />
+      <DiceGame v-bind:activePlayer="activePlayer" v-bind:dices="dices" />
+      <PopUpModal
+        v-bind:isOpenPopup="isOpenPopup"
+        v-on:handleConfirm="handleConfirm"
+        v-on:closeModal="handleCloseModal"
+      />
     </div>
   </main>
 </template>

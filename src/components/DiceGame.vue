@@ -1,9 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { defineProps, type PropType } from 'vue'
+
+defineProps({
+  dices: {
+    type: Array as PropType<number[]>,
+    default: () => [2, 2],
+  },
+})
+</script>
 
 <template>
   <div class="greetings">
     <div id="dice-1" class="dice">
-      <div class="spinner dice-3">
+      <div class="spinner" v-bind:class="`dice-${dices[0]}`">
         <div class="face1">1</div>
         <div class="face2">2</div>
         <div class="face3">3</div>
@@ -13,7 +22,7 @@
       </div>
     </div>
     <div id="dice-2" class="dice">
-      <div class="spinner dice-6">
+      <div class="spinner" v-bind:class="`dice-${dices[1]}`">
         <div class="face1">1</div>
         <div class="face2">2</div>
         <div class="face3">3</div>

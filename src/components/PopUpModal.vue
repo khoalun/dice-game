@@ -1,15 +1,39 @@
 <script setup lang="ts">
-// Logic here
+import { defineProps, computed } from 'vue'
+
+const props = defineProps({
+  isOpenPopup: { type: Boolean, default: false },
+})
+
+const getClassPopup = computed(() => {
+  return {
+    'open-popup': props.isOpenPopup,
+  }
+})
+
+const emit = defineEmits<{
+  (e: 'handleConfirm'): void
+  (e: 'closeModal'): void
+}>()
+
+const confirm = () => {
+  emit('handleConfirm')
+  console.log('confirm popupVue')
+}
+
+const handleClose = () => {
+  emit('closeModal')
+}
 </script>
 
 <template>
-  <div class="wrapper-popup">
+  <div class="wrapper-popup" v-bind:class="getClassPopup">
     <div class="container">
       <div class="cookies-content" id="cookiesPopup">
-        <button class="close">✖</button>
+        <button class="close" v-on:click="handleClose">✖</button>
         <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
         <p>We use cookies for improving user experience, analytics and marketing.</p>
-        <button class="accept">That's fine!</button>
+        <button class="accept" v-on:click="confirm">That's fine!</button>
       </div>
     </div>
   </div>
@@ -30,6 +54,14 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.open-popup {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .cookies-content {
@@ -52,6 +84,7 @@
   background-color: transparent;
   border: none;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .cookies-content img {
@@ -73,5 +106,6 @@
   font-size: 16px;
   color: white;
   box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+  cursor: pointer;
 }
 </style>
