@@ -5,6 +5,8 @@ import DiceGame from './components/DiceGame.vue'
 import { ref } from 'vue'
 
 const scorePlayer = ref<number[]>([13, 30])
+const currentScore = ref<number>(0)
+const activePlayer = ref<number>(0)
 </script>
 
 <template>
@@ -15,8 +17,8 @@ const scorePlayer = ref<number[]>([13, 30])
   <main>
     <div class="wrapper clearfix">
       <PlayerGame v-bind:scorePlayer="scorePlayer" />
-      <ControlGame />
-      <DiceGame />
+      <ControlGame v-bind:currentScore="currentScore" />
+      <DiceGame v-bind:activePlayer="activePlayer" />
     </div>
   </main>
 </template>

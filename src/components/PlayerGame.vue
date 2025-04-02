@@ -6,26 +6,34 @@ defineProps({
     type: Array as PropType<number[]>,
     default: () => [0, 0],
   },
+  currentScore: {
+    type: Number,
+    default: 0,
+  },
+  activePlayer: {
+    type: Number,
+    default: 0,
+  },
 })
 </script>
 
 <template>
   <div class="item">
-    <div class="player-panel active">
+    <div class="player-panel" v-bind:class="{ active: activePlayer == 0 }">
       <div class="player-name">Player</div>
       <div class="player-score">{{ scorePlayer[0] }}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
-        <div class="player-current-score">11</div>
+        <div class="player-current-score">{{ activePlayer == 0 ? currentScore : 0 }}</div>
       </div>
     </div>
 
-    <div class="player-panel">
+    <div class="player-panel" v-bind:class="{ active: activePlayer == 1 }">
       <div class="player-name">Player 2</div>
       <div class="player-score">{{ scorePlayer[1] }}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
-        <div class="player-current-score">0</div>
+        <div class="player-current-score">{{ scorePlayer[1] }}</div>
       </div>
     </div>
   </div>
