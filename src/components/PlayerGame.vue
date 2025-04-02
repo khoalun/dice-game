@@ -33,7 +33,7 @@ defineProps({
       <div class="player-score">{{ scorePlayer[1] }}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
-        <div class="player-current-score">{{ scorePlayer[1] }}</div>
+        <div class="player-current-score">{{ activePlayer == 1 ? currentScore : 0 }}</div>
       </div>
     </div>
   </div>

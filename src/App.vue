@@ -10,7 +10,7 @@ const currentScore = ref<number>(0)
 const activePlayer = ref<number>(0)
 const isOpenPopup = ref(false)
 const dices = ref([3, 4])
-const isPlaying = ref(true)
+const isPlaying = ref(false)
 const handleNewGame = () => {
   console.log('fdfdfd')
   isOpenPopup.value = !isOpenPopup.value
@@ -37,6 +37,16 @@ const handleRollDice = () => {
     const dice2 = Math.floor(Math.random() * 6) + 1
     console.log(dice1, dice2)
     dices.value = [dice1, dice2]
+    if (dice1 === 1 || dice2 === 1) {
+      // Reset to 0
+      currentScore.value = 0
+      // switch to another player
+      activePlayer.value = activePlayer.value === 0 ? 1 : 0
+      console.log('Got 1! Switching to player:', activePlayer.value)
+    } else {
+      currentScore.value += dice1 + dice2
+      console.log('current +', currentScore.value)
+    }
   } else {
     alert('Please click new game to start')
   }
@@ -50,13 +60,13 @@ const handleRollDice = () => {
 
   <main>
     <div class="wrapper clearfix">
-      <PlayerGame v-bind:scorePlayer="scorePlayer" />
-      <ControlGame
+      <PlayerGame
+        v-bind:scorePlayer="scorePlayer"
         v-bind:currentScore="currentScore"
-        v-on:handleNewGame="handleNewGame"
-        v-on:handleRollDice="handleRollDice"
+        v-bind:activePlayer="activePlayer"
       />
-      <DiceGame v-bind:activePlayer="activePlayer" v-bind:dices="dices" />
+      <ControlGame v-on:handleNewGame="handleNewGame" v-on:handleRollDice="handleRollDice" />
+      <DiceGame v-bind:dices="dices" />
       <PopUpModal
         v-bind:isOpenPopup="isOpenPopup"
         v-on:handleConfirm="handleConfirm"
