@@ -28,7 +28,7 @@ const handleConfirm = () => {
   activePlayer.value = 0
   currentScore.value = 0
   scorePlayer.value = [0, 0]
-  dices.value = [1, 1]
+  dices.value = [2, 2]
 }
 
 const handleRollDice = () => {
@@ -42,11 +42,32 @@ const handleRollDice = () => {
       currentScore.value = 0
       // switch to another player
       activePlayer.value = activePlayer.value === 0 ? 1 : 0
-      console.log('Got 1! Switching to player:', activePlayer.value)
+      alert(` Got 1! Switching to  another player: `)
+    } else if (isPlaying.value && dice1 === dice2) {
+      currentScore.value = currentScore.value + dice1 + dice2
+      setTimeout(() => {
+        alert(`Double ${dice1}! You get another turn!`)
+      }, 300)
+      console.log('Double! Current score:', currentScore.value)
     } else {
       currentScore.value += dice1 + dice2
       console.log('current +', currentScore.value)
     }
+  } else {
+    alert('Please click new game to start')
+  }
+}
+
+const handleHoldScore = () => {
+  console.log('ban hold score ra ngoai')
+  if (isPlaying.value) {
+    // add currentScore to Active Player
+    scorePlayer.value[activePlayer.value] =
+      scorePlayer.value[activePlayer.value] + currentScore.value
+    console.log('currentScore', scorePlayer.value[activePlayer.value], scorePlayer.value)
+    currentScore.value = 0
+    // Switch player
+    activePlayer.value = activePlayer.value === 0 ? 1 : 0
   } else {
     alert('Please click new game to start')
   }
@@ -65,8 +86,12 @@ const handleRollDice = () => {
         v-bind:currentScore="currentScore"
         v-bind:activePlayer="activePlayer"
       />
-      <ControlGame v-on:handleNewGame="handleNewGame" v-on:handleRollDice="handleRollDice" />
-      <DiceGame v-bind:dices="dices" />
+      <ControlGame
+        v-on:handleNewGame="handleNewGame"
+        v-on:handleRollDice="handleRollDice"
+        v-on:handleHoldScore="handleHoldScore"
+      />
+      <DiceGame v-bind:activePlayer="activePlayer" v-bind:dices="dices" />
       <PopUpModal
         v-bind:isOpenPopup="isOpenPopup"
         v-on:handleConfirm="handleConfirm"

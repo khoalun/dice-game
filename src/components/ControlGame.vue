@@ -6,11 +6,15 @@ const newGame = () => {
 const emit = defineEmits<{
   (e: 'handleNewGame'): void
   (e: 'handleRollDice'): void
+  (e: 'handleHoldScore'): void
 }>()
 
 const rollDice = () => {
-  console.log('newGame Controls.vue')
   emit('handleRollDice')
+}
+const holdScore = () => {
+  console.log('hold Controls.vue')
+  emit('handleHoldScore')
 }
 </script>
 <template>
@@ -21,7 +25,9 @@ const rollDice = () => {
     <button class="control btn-roll" v-on:click="rollDice">
       <i class="ion-ios-loop"></i>Roll dice
     </button>
-    <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+    <button class="control btn-hold" v-on:click="holdScore">
+      <i class="ion-ios-download-outline"></i>Hold
+    </button>
 
     <input type="number" placeholder="Final score" class="final-score" />
   </div>
