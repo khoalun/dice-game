@@ -3,10 +3,14 @@ const newGame = () => {
   console.log('newGame Controls.vue')
   emit('handleNewGame')
 }
+defineProps<{
+  isPlaying: boolean
+}>()
 const emit = defineEmits<{
   (e: 'handleNewGame'): void
   (e: 'handleRollDice'): void
   (e: 'handleHoldScore'): void
+  (e: 'updateFinalScore', score: number): void
 }>()
 
 const rollDice = () => {
@@ -15,6 +19,10 @@ const rollDice = () => {
 const holdScore = () => {
   console.log('hold Controls.vue')
   emit('handleHoldScore')
+}
+
+const updateFinalScore = (e: Event) => {
+  emit('updateFinalScore', (e.target as HTMLInputElement).value)
 }
 </script>
 <template>
@@ -29,7 +37,13 @@ const holdScore = () => {
       <i class="ion-ios-download-outline"></i>Hold
     </button>
 
-    <input type="number" placeholder="Final score" class="final-score" />
+    <input
+      type="number"
+      placeholder="Final score"
+      class="final-score"
+      :disabled="isPlaying"
+      @input="updateFinalScore"
+    />
   </div>
 </template>
 

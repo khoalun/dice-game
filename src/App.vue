@@ -11,8 +11,14 @@ const activePlayer = ref<number>(0)
 const isOpenPopup = ref(false)
 const dices = ref([3, 4])
 const isPlaying = ref(false)
+const finalScore = ref<number>(100)
+
 const handleNewGame = () => {
   console.log('fdfdfd')
+  if (!finalScore.value || finalScore.value < 0) {
+    alert('Please enter a valid final score greater than 0')
+    return
+  }
   isOpenPopup.value = !isOpenPopup.value
   console.log('isOpenPopup:', isOpenPopup.value)
 }
@@ -72,6 +78,14 @@ const handleHoldScore = () => {
     alert('Please click new game to start')
   }
 }
+
+const updateFinalScore = (score: number) => {
+  if (score > 0) {
+    finalScore.value = score
+  } else {
+    alert('please enter valid score')
+  }
+}
 </script>
 
 <template>
@@ -90,6 +104,8 @@ const handleHoldScore = () => {
         v-on:handleNewGame="handleNewGame"
         v-on:handleRollDice="handleRollDice"
         v-on:handleHoldScore="handleHoldScore"
+        v-on:updateFinalScore="updateFinalScore"
+        v-bind:isPlaying="isPlaying"
       />
       <DiceGame v-bind:activePlayer="activePlayer" v-bind:dices="dices" />
       <PopUpModal
