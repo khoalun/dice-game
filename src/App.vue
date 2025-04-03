@@ -12,7 +12,7 @@ const isOpenPopup = ref(false)
 const dices = ref([3, 4])
 const isPlaying = ref(false)
 const finalScore = ref<number>(100)
-
+const isWinner = ref(false)
 const handleNewGame = () => {
   console.log('fdfdfd')
   if (!finalScore.value || finalScore.value < 0) {
@@ -35,6 +35,7 @@ const handleConfirm = () => {
   currentScore.value = 0
   scorePlayer.value = [0, 0]
   dices.value = [2, 2]
+  isWinner.value = false
 }
 
 const handleRollDice = () => {
@@ -71,6 +72,18 @@ const handleHoldScore = () => {
     scorePlayer.value[activePlayer.value] =
       scorePlayer.value[activePlayer.value] + currentScore.value
     console.log('currentScore', scorePlayer.value[activePlayer.value], scorePlayer.value)
+
+    if (isWinner.value) {
+      alert(`Game is over please start again`)
+      return
+    }
+    // check if player has won or exceed finalScore
+    if (scorePlayer.value[activePlayer.value] >= finalScore.value) {
+      isWinner.value = true
+      alert(`congratulations u won`)
+      isPlaying.value = false
+      return
+    }
     currentScore.value = 0
     // Switch player
     activePlayer.value = activePlayer.value === 0 ? 1 : 0
@@ -86,6 +99,13 @@ const updateFinalScore = (score: number) => {
     alert('please enter valid score')
   }
 }
+
+const getPlayerName = (playerIndex: number): string => {
+  if (isWinner.value && playerIndex === activePlayer.value) {
+    return 'Winner !'
+  }
+  return `Player  ${playerIndex + 1}`
+}
 </script>
 
 <template>
@@ -99,6 +119,8 @@ const updateFinalScore = (score: number) => {
         v-bind:scorePlayer="scorePlayer"
         v-bind:currentScore="currentScore"
         v-bind:activePlayer="activePlayer"
+        v-bind:isWinner="isWinner"
+        v-bind:getPlayerName="getPlayerName"
       />
       <ControlGame
         v-on:handleNewGame="handleNewGame"

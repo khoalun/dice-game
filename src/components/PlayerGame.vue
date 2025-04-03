@@ -14,13 +14,24 @@ defineProps({
     type: Number,
     default: 0,
   },
+  isWinner: {
+    type: Boolean,
+    default: false,
+  },
+  getPlayerName: {
+    type: Function as PropType<(index: number) => string>,
+    required: true,
+  },
 })
 </script>
 
 <template>
   <div class="item">
-    <div class="player-panel" v-bind:class="{ active: activePlayer == 0 }">
-      <div class="player-name">Player</div>
+    <div
+      class="player-panel"
+      v-bind:class="{ active: activePlayer === 0 && !isWinner, winner: !activePlayer && isWinner }"
+    >
+      <div class="player-name">{{ getPlayerName(0) }}</div>
       <div class="player-score">{{ scorePlayer[0] }}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
@@ -28,8 +39,11 @@ defineProps({
       </div>
     </div>
 
-    <div class="player-panel" v-bind:class="{ active: activePlayer == 1 }">
-      <div class="player-name">Player 2</div>
+    <div
+      class="player-panel"
+      v-bind:class="{ active: activePlayer == 1, winner: !activePlayer && isWinner }"
+    >
+      <div class="player-name">{{ getPlayerName(1) }}</div>
       <div class="player-score">{{ scorePlayer[1] }}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
